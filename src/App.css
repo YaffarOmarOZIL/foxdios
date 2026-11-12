@@ -1,0 +1,59 @@
+.pantalla { position: relative; width: 100%; height: 100%; overflow: hidden; background: #0a1622; isolation: isolate; }
+.cargando-movil { position: absolute; inset: 0; display: grid; place-items: center; }
+
+/* La "habitación" alrededor del monitor */
+.habitacion {
+  position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 45%, rgba(80, 160, 230, .35), transparent 70%),
+    linear-gradient(#0e2236, #050b14 70%, #0b1520);
+  animation: aparecer .5s;
+}
+
+/* Monitor panorámico LCD negro brillante */
+.monitor { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+.monitor-marco {
+  position: relative; padding: 18px 18px 8px;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(160deg, #3b434c 0%, #11161b 35%, #050708 60%, #20262c 100%);
+  box-shadow: 0 0 0 1px #000, inset 0 1px 0 rgba(255,255,255,.25), 0 20px 50px rgba(0,0,0,.6);
+}
+.monitor-marco::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(125deg, rgba(255,255,255,.18) 0%, transparent 30%);
+}
+.monitor-marco .pantalla { box-shadow: 0 0 0 1px #000, 0 0 0 3px #1a1f24; }
+.monitor-pie {
+  position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 30px;
+  border-radius: 0 0 12px 12px;
+  background: linear-gradient(#11161b, #050708 60%, #262d34);
+  box-shadow: 0 0 0 1px #000, 0 12px 30px rgba(0,0,0,.5);
+}
+.monitor-marca { color: #a9b6c4; font-size: 12px; letter-spacing: 1px; }
+.monitor-marca b { color: #ff9a2e; }
+.monitor-led { position: absolute; right: 22px; width: 7px; height: 7px; border-radius: 50%; background: radial-gradient(#d0ffd0, #3fdc4a 60%, #137a1d); box-shadow: 0 0 8px #4dff5a; }
+.monitor-base {
+  width: 130px; height: 40px; margin-top: -2px;
+  background: linear-gradient(90deg, #0d1115, #3a434c 50%, #0d1115);
+  clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%);
+  box-shadow: 0 10px 20px rgba(0,0,0,.6);
+}
+.monitor-base::after { content: ''; display: block; margin: 34px auto 0; width: 220px; height: 8px; border-radius: 50%; background: rgba(0,0,0,.6); filter: blur(4px); }
+
+/* Monitor clásico 4:3 tipo CRT color perla */
+.monitor-crt .monitor-marco {
+  padding: 30px 30px 12px; border-radius: 22px 22px 6px 6px;
+  background: linear-gradient(160deg, #f2efe6 0%, #d9d4c6 45%, #bfb9a9 100%);
+  box-shadow: 0 0 0 1px #8d877a, inset 0 2px 0 rgba(255,255,255,.8), inset 0 -3px 8px rgba(0,0,0,.15), 0 24px 60px rgba(0,0,0,.6);
+}
+.monitor-crt .monitor-marco .pantalla { border-radius: 18px / 14px; box-shadow: 0 0 0 3px #3b3a36, 0 0 0 6px #a9a393, inset 0 0 40px rgba(0,0,0,.6); }
+.monitor-crt .monitor-pie { height: 38px; border-radius: 6px 6px 16px 16px; background: linear-gradient(#d9d4c6, #bfb9a9); box-shadow: 0 0 0 1px #8d877a, 0 12px 30px rgba(0,0,0,.5); }
+.monitor-crt .monitor-marca { color: #6b665b; }
+.monitor-crt .monitor-base { width: 220px; height: 34px; background: linear-gradient(90deg, #a9a393, #e4dfd2 50%, #a9a393); clip-path: polygon(15% 0, 85% 0, 100% 100%, 0 100%); }
+.crt-lineas {
+  position: absolute; inset: 30px 30px 12px; border-radius: 18px / 14px; pointer-events: none; z-index: 20000;
+  background:
+    repeating-linear-gradient(transparent 0 2px, rgba(0,0,0,.06) 2px 3px),
+    radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0,0,0,.35) 100%);
+  mix-blend-mode: multiply;
+}

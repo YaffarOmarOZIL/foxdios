@@ -1,0 +1,6 @@
+{
+  "dominio": "pixel-paint.art",
+  "titulo": "Pixel Paint",
+  "descripcion": { "en": "Draw tiny pixel art right in the browser.", "es": "Dibuja pixel art directamente en el navegador." },
+  "icono": "icono.svg"
+}

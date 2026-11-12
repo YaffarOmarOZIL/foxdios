@@ -1,0 +1,53 @@
+.escritorio { position: absolute; inset: 0 0 var(--alto-barra) 0; }
+.iconos-escritorio {
+  position: absolute; inset: 8px auto 8px 6px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 92px; gap: 0 4px; align-content: start;
+}
+.icono-escritorio {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  height: 92px; padding: 6px 4px 2px; border: 1px solid transparent; border-radius: 4px;
+  background: transparent; cursor: default; outline: none;
+  animation: icono-entrar .45s cubic-bezier(.2,.9,.3,1.2) backwards;
+  touch-action: manipulation;
+}
+@keyframes icono-entrar { from { opacity: 0; transform: translateY(10px) scale(.85); } }
+.icono-escritorio:hover { background: rgba(140, 200, 255, .22); border-color: rgba(190, 230, 255, .55); }
+.icono-escritorio.seleccionado, .icono-escritorio:focus-visible {
+  background: linear-gradient(rgba(150, 210, 255, .45), rgba(90, 170, 240, .35));
+  border-color: rgba(200, 235, 255, .8); box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+}
+.icono-escritorio-img { display: grid; place-items: center; width: 52px; height: 52px; transition: transform .2s; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
+.icono-escritorio-img img { object-fit: contain; border-radius: 10px; }
+.icono-escritorio:hover .icono-escritorio-img { transform: translateY(-2px) scale(1.05); }
+.icono-escritorio:active .icono-escritorio-img { transform: scale(.95); }
+.icono-escritorio-texto {
+  max-width: 100%; color: #fff; font-size: 12px; line-height: 1.2; text-align: center;
+  text-shadow: 0 1px 2px #000, 0 0 4px rgba(0,0,0,.8);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;
+}
+/* Icono que llama la atención (modo celular en pantallas táctiles) */
+.icono-escritorio.llamativo .icono-escritorio-img { animation: llamar 1.6s ease-in-out infinite; }
+.icono-escritorio.llamativo::after {
+  content: ''; position: absolute; width: 60px; height: 60px; margin-top: -2px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(120,230,255,.55), transparent 70%); animation: halo 1.6s ease-in-out infinite; pointer-events: none;
+}
+.icono-escritorio { position: relative; }
+@keyframes llamar { 0%, 100% { transform: translateY(0) scale(1); } 15% { transform: translateY(-6px) scale(1.08); } 30% { transform: translateY(0) scale(1); } 40% { transform: translateY(-3px); } 50% { transform: none; } }
+@keyframes halo { 0%, 100% { opacity: .2; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+
+/* Menú contextual (clic derecho) */
+.menu-contextual {
+  position: absolute; z-index: var(--z-menu); min-width: 210px; padding: 3px;
+  background: #f5f8fb; border: 1px solid #8f9fb0; border-radius: 4px;
+  box-shadow: 3px 4px 12px rgba(0,0,0,.35); animation: aparecer .12s;
+}
+.menu-contextual button {
+  display: flex; align-items: center; gap: 8px; width: 100%; padding: 5px 10px 5px 28px; text-align: left;
+  border: 1px solid transparent; border-radius: 3px; background: none; cursor: default;
+}
+.menu-contextual button:hover { background: linear-gradient(#eaf6fe, #d3ebfb); border-color: #a8d4f3; }
+.menu-contextual button { position: relative; }
+.menu-contextual button.marcado::before { content: '●'; position: absolute; left: 22px; color: #1f6fb8; font-size: 9px; }
+.menu-contextual hr { border: 0; border-top: 1px solid #d5dde5; margin: 3px 2px 3px 26px; }
+.menu-contextual .submenu > span { display: block; padding: 4px 10px 2px 28px; color: var(--texto-suave); font-size: 11px; }
+.menu-contextual .submenu button { padding-left: 38px; }

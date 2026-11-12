@@ -1,0 +1,11 @@
+node_modules
+dist
+.cache
+# Fotos pesadas que van a Cloudflare R2 (ver README). Sus miniaturas sí se suben (carpeta externo/).
+contenido-externo
+*.log
+.DS_Store
+Thumbs.db
+
+# Configuración local de Claude Code
+.claude

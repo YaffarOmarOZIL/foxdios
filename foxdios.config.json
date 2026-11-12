@@ -1,0 +1,15 @@
+{
+  "_ayuda": "Configuración general de FoxdiOS. Lee el README para más detalle.",
+  "almacenamientoExterno": {
+    "_ayuda": "Pon activo en true cuando subas fotos pesadas a Cloudflare R2. urlBase es la URL pública de tu bucket.",
+    "activo": false,
+    "urlBase": "https://pub-XXXXXXXXXXXX.r2.dev"
+  },
+  "miniaturas": {
+    "tamano": 360,
+    "calidad": 72
+  },
+  "asistente": {
+    "segundosInactividad": 120
+  }
+}

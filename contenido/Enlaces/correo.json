@@ -1,0 +1,6 @@
+{
+  "nombre": { "en": "Email me", "es": "Escríbeme" },
+  "logo": "iconos/correo.svg",
+  "link": "mailto:hello@example.com",
+  "mostrar": ["explorador"]
+}

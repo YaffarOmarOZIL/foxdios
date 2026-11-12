@@ -1,0 +1,6 @@
+{
+  "nombre": { "en": "Music", "es": "Música" },
+  "tipo": "musica",
+  "acepta": ["audio"],
+  "prioridad": 5
+}

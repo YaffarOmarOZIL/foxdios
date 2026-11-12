@@ -1,0 +1,7 @@
+{
+  "nombre": { "en": "Pictures", "es": "Imágenes" },
+  "icono": "fotos",
+  "acepta": ["imagen"],
+  "escritorio": true,
+  "prioridad": 1
+}

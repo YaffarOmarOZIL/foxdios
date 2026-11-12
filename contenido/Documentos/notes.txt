@@ -1,0 +1,5 @@
+Notes
+=====
+
+This is a plain .txt file. It opens in a Notepad-style reader.
+Placeholder: write anything here!

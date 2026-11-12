@@ -1,0 +1,9 @@
+{
+  "nombre": { "en": "Work Experience", "es": "Experiencia laboral" },
+  "icono": "trabajo",
+  "acepta": ["documento", "pdf"],
+  "orden": "fecha-desc",
+  "escritorio": true,
+  "vista": "lista",
+  "prioridad": 3
+}

@@ -1,0 +1,36 @@
+.visor { display: flex; flex-direction: column; height: 100%; background: radial-gradient(ellipse at 50% 40%, #2a3a4c, #0e161f); }
+.visor-escena { position: relative; flex: 1; min-height: 0; overflow: hidden; display: grid; place-items: center; touch-action: none; container-type: size; }
+.visor-escena.arrastrable { cursor: grab; }
+.visor-escena.arrastrable:active { cursor: grabbing; }
+.visor-marco {
+  position: relative; aspect-ratio: var(--ratio);
+  width: min(calc(100cqw - 24px), calc((100cqh - 24px) * var(--ratio)), max(var(--ancho), 320px));
+  transition: transform .18s ease-out; box-shadow: 0 8px 30px rgba(0,0,0,.55);
+}
+.visor-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .35s; }
+.visor-previa { filter: blur(4px); transform: scale(1.01); }
+.visor-original { opacity: 0; }
+.visor-original.lista { opacity: 1; }
+.visor-cargando { position: absolute; bottom: 16px; right: 16px; }
+.visor-barra {
+  position: relative; display: flex; align-items: center; justify-content: center; height: 52px; flex: none;
+  background: linear-gradient(rgba(255,255,255,.22), rgba(255,255,255,.06) 50%, rgba(0,0,0,.15) 51%, rgba(255,255,255,.05)), #1c3550;
+  border-top: 1px solid rgba(255,255,255,.3);
+}
+.visor-info { position: absolute; left: 12px; color: #cfe3f5; font-size: 12px; }
+.visor-controles { display: flex; align-items: center; gap: 4px; }
+.vc {
+  display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border-radius: 4px; border: 1px solid transparent;
+  color: #fff; font-size: 16px; background: none; cursor: pointer; text-decoration: none; text-shadow: 0 1px 2px #000;
+}
+.vc:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.3); }
+.vc:disabled { opacity: .3; pointer-events: none; }
+.vc svg { width: 16px; height: 16px; fill: #fff; stroke: #fff; stroke-width: 0; }
+.vc-flecha svg { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.vc-play {
+  width: 42px; height: 42px; border-radius: 50%; border: 1px solid #0b3f78;
+  background: radial-gradient(circle at 50% 30%, #c8eeff, #3fa3ea 55%, #0b5aa6); box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 0 10px rgba(80,180,255,.5);
+}
+.vc-play:hover { filter: brightness(1.15); background: radial-gradient(circle at 50% 30%, #d8f4ff, #55b4f2 55%, #1569b8); }
+.vc-play.activo { box-shadow: 0 0 16px rgba(120,220,255,.9); }
+@container (max-width: 520px) { .visor-info { display: none; } }

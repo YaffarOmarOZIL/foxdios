@@ -1,0 +1,94 @@
+/* ───────────── Ventanas estilo Aero ───────────── */
+.capa-ventanas { position: absolute; inset: 0 0 var(--alto-barra) 0; pointer-events: none; z-index: var(--z-ventanas); }
+.capa-ventanas.flip { perspective: 1400px; perspective-origin: 50% 40%; z-index: calc(var(--z-flip) + 1); }
+
+.ventana {
+  position: absolute; display: flex; flex-direction: column;
+  border-radius: var(--radio) var(--radio) 6px 6px;
+  padding: 0 7px 7px;
+  pointer-events: auto;
+  background: var(--vidrio-inactivo);
+  backdrop-filter: var(--desenfoque); -webkit-backdrop-filter: var(--desenfoque);
+  border: 1px solid rgba(255, 255, 255, .55);
+  box-shadow: 0 0 0 1px rgba(0, 20, 40, .45), 0 8px 26px rgba(0, 20, 50, .35);
+  animation: ventana-abrir .26s cubic-bezier(.2, .9, .3, 1.1);
+  transition: opacity .2s, transform .22s cubic-bezier(.3, .7, .4, 1), box-shadow .2s, background .2s;
+  transform-origin: 50% 60%;
+}
+/* Brillo diagonal del vidrio */
+.ventana::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,.08) 28%, transparent 29%, transparent 60%, rgba(255,255,255,.12) 61%, transparent 75%),
+    linear-gradient(rgba(255,255,255,.25), transparent 40px);
+}
+.ventana.activa { background: var(--vidrio); box-shadow: 0 0 0 1px rgba(0, 20, 40, .55), var(--sombra-ventana); }
+.ventana.maximizada { border-radius: 0; padding: 0 0 0; border-width: 0; transition: none; }
+.ventana.minimizada { opacity: 0; transform: translateY(45%) scale(.3); pointer-events: none; }
+.ventana.cerrando { opacity: 0; transform: scale(.92); pointer-events: none; }
+.ventana.en-flip { transition: transform .45s cubic-bezier(.25, .8, .3, 1), opacity .3s, filter .3s; cursor: pointer; }
+.ventana.en-flip .ventana-cuerpo { pointer-events: none; }
+.ventana.en-flip.minimizada { opacity: .9; }
+@keyframes ventana-abrir { from { opacity: 0; transform: scale(.88) translateY(14px); } }
+
+.ventana-titulo {
+  position: relative; display: flex; align-items: center; gap: 7px; height: 32px; flex: none;
+  padding: 0 0 0 4px; cursor: default; touch-action: none;
+}
+.ventana-texto {
+  flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  font-size: 13px; color: #10202f;
+  text-shadow: 0 0 10px #fff, 0 0 10px #fff, 0 0 6px #fff;
+}
+.ventana:not(.activa) .ventana-texto { color: #3d4c5b; }
+
+.ventana-botones { display: flex; align-self: flex-start; margin-top: -1px; filter: drop-shadow(0 1px 1px rgba(0,0,0,.2)); }
+.vb {
+  display: grid; place-items: center; height: 20px; width: 27px; padding: 0; cursor: pointer;
+  border: 1px solid rgba(20, 40, 60, .55); border-top: 0;
+  background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.25) 50%, rgba(200,220,240,.2) 51%, rgba(255,255,255,.45));
+  transition: background .15s, box-shadow .15s;
+}
+.vb svg { width: 10px; height: 10px; fill: #fff; filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px rgba(0,0,0,.6)); }
+.vb-min { border-radius: 0 0 0 5px; border-right: 0; }
+.vb-cerrar { width: 46px; border-radius: 0 0 5px 0; border-left: 0; }
+.ventana.activa .vb-cerrar { background: linear-gradient(#f0a090, #d8553c 50%, #c0301a 51%, #e0663e); }
+.vb:hover { background: linear-gradient(#d6f4ff, #6dc7f6 50%, #2c9fe0 51%, #6dd0ff); box-shadow: 0 0 10px #56c7ff; }
+.vb-cerrar:hover, .ventana.activa .vb-cerrar:hover { background: linear-gradient(#ffc0a8, #f06a45 50%, #d93a14 51%, #ff7a3e); box-shadow: 0 0 12px #ff6a3a; }
+.vb:active { filter: brightness(.85); }
+.ventana.maximizada .ventana-titulo { padding-right: 4px; }
+
+.ventana-cuerpo {
+  position: relative; flex: 1; min-height: 0; overflow: hidden;
+  background: var(--cuerpo); border: 1px solid rgba(40, 60, 80, .55); border-radius: 2px;
+  container-type: size;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.5);
+}
+.ventana.maximizada .ventana-cuerpo { border-left: 0; border-right: 0; border-bottom: 0; }
+.ventana-cargando { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 10px; color: var(--texto-suave); }
+
+/* Bordes para cambiar tamaño */
+.borde { position: absolute; z-index: 2; touch-action: none; }
+.borde-n { top: -4px; left: 8px; right: 8px; height: 8px; cursor: n-resize; }
+.borde-s { bottom: -4px; left: 8px; right: 8px; height: 8px; cursor: s-resize; }
+.borde-e { right: -4px; top: 8px; bottom: 8px; width: 8px; cursor: e-resize; }
+.borde-o { left: -4px; top: 8px; bottom: 8px; width: 8px; cursor: w-resize; }
+.borde-ne { top: -4px; right: -4px; width: 14px; height: 14px; cursor: ne-resize; }
+.borde-no { top: -4px; left: -4px; width: 14px; height: 14px; cursor: nw-resize; }
+.borde-se { bottom: -4px; right: -4px; width: 16px; height: 16px; cursor: se-resize; }
+.borde-so { bottom: -4px; left: -4px; width: 14px; height: 14px; cursor: sw-resize; }
+
+/* Flip 3D */
+.flip-fondo {
+  position: absolute; inset: 0; z-index: var(--z-flip);
+  background: radial-gradient(ellipse at 50% 40%, rgba(10, 40, 70, .35), rgba(0, 10, 25, .75));
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  animation: aparecer .3s;
+}
+.flip-ayuda {
+  position: absolute; left: 50%; bottom: calc(var(--alto-barra) + 18px); transform: translateX(-50%);
+  z-index: calc(var(--z-flip) + 2);
+  padding: 7px 16px; border-radius: 16px; color: #fff; font-size: 12px; white-space: nowrap;
+  background: rgba(0, 0, 0, .45); border: 1px solid rgba(255,255,255,.25);
+}
+@keyframes aparecer { from { opacity: 0; } }

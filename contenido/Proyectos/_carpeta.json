@@ -1,0 +1,6 @@
+{
+  "nombre": { "en": "Projects", "es": "Proyectos" },
+  "icono": "proyectos",
+  "escritorio": true,
+  "prioridad": 4
+}

@@ -1,0 +1,6 @@
+{
+  "dominio": "zorros.com",
+  "titulo": { "en": "Zorros.com — All about foxes", "es": "Zorros.com — Todo sobre zorros" },
+  "descripcion": { "en": "Fun facts about foxes, with animations.", "es": "Datos curiosos sobre zorros, con animaciones." },
+  "icono": "icono.svg"
+}

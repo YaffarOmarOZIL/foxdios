@@ -1,0 +1,6 @@
+{
+  "nombre": { "en": "Documents", "es": "Documentos" },
+  "icono": "documentos",
+  "acepta": ["documento", "pdf"],
+  "prioridad": 2
+}

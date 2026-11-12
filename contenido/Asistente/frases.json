@@ -1,0 +1,31 @@
+{
+  "_ayuda": "Frases de Foxdi. Agrega las que quieras: cada una con 'en' (inglés) y 'es' (español). Salen al azar.",
+  "bienvenida": [
+    { "en": "Hi there! I'm Foxdi. Welcome to my little corner of the internet!", "es": "¡Hola! Soy Foxdi. ¡Bienvenido a mi rinconcito de internet!" },
+    { "en": "Oh, a visitor! Make yourself at home. Click on me if you need anything!", "es": "¡Oh, una visita! Ponte cómodo. ¡Hazme clic si necesitas algo!" }
+  ],
+  "alHacerClick": [
+    { "en": "Did you know? You can drag windows to the top of the screen to maximize them!", "es": "¿Sabías que puedes llevar una ventana arriba del todo para maximizarla?" },
+    { "en": "Try the 3D button next to the green orb. Your windows will do a little dance!", "es": "Prueba el botón 3D junto al orbe verde. ¡Tus ventanas harán un bailecito!" },
+    { "en": "My art is in the Pictures folder. Go take a look!", "es": "Mi arte está en la carpeta Imágenes. ¡Ve a echar un vistazo!" },
+    { "en": "Hehe, that tickles!", "es": "¡Jiji, eso me hace cosquillas!" },
+    { "en": "You can switch to a classic 4:3 monitor in Settings. Very retro!", "es": "Puedes cambiar a un monitor clásico 4:3 en Configuración. ¡Muy retro!" },
+    { "en": "The puzzle gadget uses my drawings. Can you solve it?", "es": "El rompecabezas usa mis dibujos. ¿Puedes resolverlo?" },
+    { "en": "Psst... have you checked the Recycle Bin?", "es": "Psst... ¿ya revisaste la papelera?" },
+    { "en": "I made every website in the AeroNet browser myself!", "es": "¡Hice yo mismo todas las webs del navegador AeroNet!" },
+    { "en": "Foxes say a lot of things. I mostly say hi!", "es": "Los zorros dicen muchas cosas. ¡Yo casi siempre digo hola!" },
+    { "en": "Want to know more about me? Open the Welcome window!", "es": "¿Quieres saber más de mí? ¡Abre la ventana de Bienvenida!" }
+  ],
+  "inactividad": [
+    { "en": "Hello? Are you still there? I'm getting lonely...", "es": "¿Hola? ¿Sigues ahí? Me estoy sintiendo solito..." },
+    { "en": "*yawn* ...oh! I wasn't sleeping, I promise.", "es": "*bostezo* ...¡oh! No estaba durmiendo, lo prometo." },
+    { "en": "Fun fact: a group of foxes is called a skulk!", "es": "Dato curioso: a un grupo de zorros en inglés se le dice 'skulk'." },
+    { "en": "I'll just be here... floating in the bubbles.", "es": "Yo me quedo por aquí... flotando entre las burbujas." },
+    { "en": "Don't forget to drink some water!", "es": "¡No olvides tomar agüita!" },
+    { "en": "If you're bored, try the music player. It has my favorite tunes!", "es": "Si te aburres, prueba el reproductor. ¡Tiene mis canciones favoritas!" },
+    { "en": "I wonder what the weather is like outside the monitor...", "es": "Me pregunto qué clima hará fuera del monitor..." },
+    { "en": "Still here! Click anything, I won't bite. Probably.", "es": "¡Sigo aquí! Haz clic en algo, no muerdo. Creo." },
+    { "en": "Did you know foxes can hear a watch ticking from 40 meters away?", "es": "¿Sabías que los zorros pueden oír un reloj a 40 metros de distancia?" },
+    { "en": "Take your time. The bubbles and I aren't going anywhere.", "es": "Tómate tu tiempo. Las burbujas y yo no nos vamos a ningún lado." }
+  ]
+}

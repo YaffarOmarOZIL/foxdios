@@ -1,0 +1,7 @@
+{
+  "nombre": "YouTube",
+  "logo": "iconos/video.svg",
+  "link": "https://www.youtube.com/",
+  "descripcion": { "en": "My videos (placeholder link)", "es": "Mis videos (link de relleno)" },
+  "mostrar": ["escritorio", "explorador"]
+}

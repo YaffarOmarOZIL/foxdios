@@ -1,0 +1,7 @@
+{
+  "nombre": "GitHub",
+  "logo": "iconos/codigo.svg",
+  "link": "https://github.com/",
+  "descripcion": { "en": "My code (placeholder link)", "es": "Mi código (link de relleno)" },
+  "mostrar": ["explorador"]
+}

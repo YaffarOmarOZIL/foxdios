@@ -1,0 +1,66 @@
+/* Arranque */
+.arranque { position: absolute; inset: 0; z-index: 10000; display: grid; place-items: center; background: #000; color: #fff; cursor: pointer; animation: aparecer .6s; }
+.arranque-centro { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.arranque .logo-foxdios { animation: logo-latir 2.4s ease-in-out infinite; filter: drop-shadow(0 0 22px rgba(90, 220, 120, .55)); }
+@keyframes logo-latir { 50% { filter: drop-shadow(0 0 36px rgba(120, 255, 160, .9)); transform: scale(1.03); } }
+.arranque-nombre { font-size: 34px; font-weight: 300; letter-spacing: 1px; }
+.arranque-nombre b, .login-marca b { font-weight: 700; color: #ff9a2e; }
+.arranque-barra { position: relative; width: 190px; height: 18px; margin-top: 24px; overflow: hidden; border: 2px solid #b7c4d1; border-radius: 4px; }
+.arranque-barra span {
+  position: absolute; top: 2px; width: 10px; height: 10px; border-radius: 2px;
+  background: linear-gradient(#a8f0ff, #2a8fe0 60%, #1a5fb0);
+  animation: bloque 1.9s linear infinite;
+}
+.arranque-barra span:nth-child(2) { animation-delay: .13s; }
+.arranque-barra span:nth-child(3) { animation-delay: .26s; }
+@keyframes bloque { from { left: -40px; } to { left: 210px; } }
+.arranque-pie { position: absolute; bottom: 24px; color: #6a7884; font-size: 12px; }
+
+/* Inicio de sesión */
+.login { position: absolute; inset: 0; z-index: 9500; display: grid; place-items: center; color: #fff; overflow: hidden; transition: opacity .6s .9s; animation: aparecer .8s; }
+.login.entrando { opacity: 0; pointer-events: none; }
+.login-brillo {
+  position: absolute; inset: -30%;
+  background:
+    linear-gradient(105deg, transparent 35%, rgba(160,255,220,.3) 45%, transparent 55%),
+    linear-gradient(75deg, transparent 50%, rgba(120,220,255,.25) 60%, transparent 70%);
+  animation: brillos-deriva 18s ease-in-out infinite alternate;
+}
+.login-centro { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.login-avatar {
+  width: 148px; height: 148px; padding: 10px; border-radius: 16px; cursor: pointer;
+  background: linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,.22) 50%, rgba(255,255,255,.12) 51%, rgba(255,255,255,.4));
+  border: 1px solid rgba(255,255,255,.85);
+  box-shadow: 0 6px 24px rgba(0,0,0,.45), inset 0 0 12px rgba(255,255,255,.4);
+  transition: transform .2s, box-shadow .2s;
+  animation: avatar-entrar .7s cubic-bezier(.2,.9,.3,1.2);
+}
+@keyframes avatar-entrar { from { transform: scale(.6); opacity: 0; } }
+.login-avatar:hover { transform: scale(1.04); box-shadow: 0 6px 30px rgba(0,0,0,.45), 0 0 26px rgba(130,220,255,.75); }
+.login-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid rgba(0,0,0,.35); }
+.login-nombre { font-size: 26px; text-shadow: 0 2px 8px rgba(0,0,0,.6); }
+.login-boton {
+  display: flex; align-items: center; gap: 10px; padding: 0 0 0 16px; height: 34px; border-radius: 17px; cursor: pointer; color: #fff;
+  border: 1px solid rgba(255,255,255,.6); background: rgba(255,255,255,.15); box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+  font-size: 14px; text-shadow: 0 1px 2px rgba(0,0,0,.5); transition: background .2s;
+}
+.login-boton:hover { background: rgba(255,255,255,.28); }
+.login-flecha {
+  display: grid; place-items: center; width: 34px; height: 34px; margin: -1px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 30%, #b8eaff, #2f9be6 55%, #0b5aa6); border: 1px solid rgba(255,255,255,.75);
+  box-shadow: 0 0 12px rgba(80,190,255,.7); animation: flecha-latir 1.8s ease-in-out infinite;
+}
+@keyframes flecha-latir { 50% { box-shadow: 0 0 22px rgba(120,220,255,1); } }
+.login-nota { margin-top: 6px; font-size: 12px; opacity: .8; }
+.login-entrando { display: flex; align-items: center; gap: 12px; font-size: 20px; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.5); }
+.login-pie { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; background: linear-gradient(transparent, rgba(0,0,0,.35)); }
+.login-idioma { padding: 6px 12px; color: #fff; border-radius: 14px; border: 1px solid rgba(255,255,255,.4); background: rgba(255,255,255,.12); cursor: pointer; }
+.login-idioma:hover { background: rgba(255,255,255,.25); }
+.login-marca { display: flex; align-items: center; gap: 6px; font-size: 18px; text-shadow: 0 1px 4px #000; }
+.login-marca span { font-size: 12px; opacity: .75; margin-left: 4px; }
+
+/* Apagado */
+.apagado { position: absolute; inset: 0; z-index: 10000; display: grid; place-content: center; justify-items: center; gap: 10px; background: #02101f; color: #fff; animation: aparecer .6s; }
+.apagado.listo { background: #000; cursor: pointer; }
+.apagado p { font-size: 20px; color: #ff9a2e; margin: 0; }
+.apagado small { color: #8899aa; }

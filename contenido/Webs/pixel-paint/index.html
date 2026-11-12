@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixel Paint</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; background: #eef3f8; }
+  h1 { margin: 0; color: #1f6fb8; font-weight: 300; }
+  #paleta { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  #paleta button { width: 30px; height: 30px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.3); cursor: pointer; transition: transform .15s; }
+  #paleta button.activo { transform: scale(1.2); box-shadow: 0 0 0 2px #1f6fb8; }
+  #lienzo { display: grid; grid-template-columns: repeat(16, 1fr); width: min(90vw, 420px); aspect-ratio: 1; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.15); touch-action: none; }
+  #lienzo div { border: 1px solid #f0f3f6; }
+  .acciones button { padding: 6px 16px; border-radius: 16px; border: 1px solid #1a6bb0; color: #fff; background: linear-gradient(#7fcfff, #2f9be6 50%, #1679c9 51%, #2a98e6); cursor: pointer; }
+</style>
+</head>
+<body>
+  <h1>🎨 Pixel Paint</h1>
+  <div id="paleta"></div>
+  <div id="lienzo"></div>
+  <div class="acciones"><button id="borrar">Clear</button></div>
+<script>
+  const colores = ['#2a3a4a', '#ff5a5a', '#ff9a2e', '#ffd84a', '#5fd04a', '#39c2f0', '#1f6fb8', '#9b64f0', '#f064b8', '#ffffff'];
+  let color = colores[0], pintando = false;
+  const paleta = document.getElementById('paleta'), lienzo = document.getElementById('lienzo');
+  colores.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.style.background = c;
+    if (!i) b.className = 'activo';
+    b.onclick = () => { color = c; paleta.querySelectorAll('button').forEach(x => x.className = ''); b.className = 'activo'; };
+    paleta.appendChild(b);
+  });
+  for (let i = 0; i < 256; i++) lienzo.appendChild(document.createElement('div'));
+  const pintar = e => { const el = document.elementFromPoint(e.clientX, e.clientY); if (el && el.parentNode === lienzo) el.style.background = color; };
+  lienzo.addEventListener('pointerdown', e => { pintando = true; pintar(e); });
+  addEventListener('pointermove', e => pintando && pintar(e));
+  addEventListener('pointerup', () => pintando = false);
+  document.getElementById('borrar').onclick = () => lienzo.querySelectorAll('div').forEach(d => d.style.background = '');
+</script>
+</body>
+</html>

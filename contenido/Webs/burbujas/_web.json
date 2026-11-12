@@ -1,0 +1,6 @@
+{
+  "dominio": "burbujas.net",
+  "titulo": { "en": "Bubble Pop!", "es": "¡Revienta burbujas!" },
+  "descripcion": { "en": "A tiny game: pop as many bubbles as you can.", "es": "Un minijuego: revienta todas las burbujas que puedas." },
+  "icono": "icono.svg"
+}
