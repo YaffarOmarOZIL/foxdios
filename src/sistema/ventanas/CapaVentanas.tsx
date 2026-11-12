@@ -92,10 +92,6 @@ export function CapaVentanas() {
             activa={v.id === activa?.id && !flip.activo}
             enFlip={flip.activo}
             estiloFlip={estiloFlip(v.id)}
-            onFlipClick={() => {
-              useSistema.getState().setFlip(false);
-              useSistema.getState().enfocar(v.id);
-            }}
           />
         ))}
       </div>

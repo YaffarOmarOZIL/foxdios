@@ -24,7 +24,9 @@
 .movil-hamburguesa.abierta span:nth-child(2) { opacity: 0; }
 .movil-hamburguesa.abierta span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-.movil-inicio { flex: 1; overflow-y: auto; padding: 16px 14px 150px; }
+.movil-inicio { flex: 1; overflow-y: auto; padding: 16px 14px 150px; transition: visibility 0s; }
+/* Con una app abierta, la pantalla de inicio de atrás no se pinta. */
+.movil.app-abierta .movil-inicio { visibility: hidden; transition-delay: .35s; }
 .movil-hola {
   display: flex; align-items: flex-end; gap: 10px; padding: 12px 14px 0; margin-bottom: 18px; overflow: hidden; border-radius: 16px;
   background: linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.25)); border: 1px solid rgba(255,255,255,.8);
@@ -46,9 +48,12 @@
 
 .movil-app {
   position: absolute; inset: 52px 0 0; z-index: 20; display: flex; flex-direction: column; background: var(--cuerpo);
-  transform: translateY(100%); opacity: 0; pointer-events: none; transition: transform .35s cubic-bezier(.2,.9,.3,1), opacity .25s;
+  transform: translateY(100%); opacity: 0; pointer-events: none; visibility: hidden;
+  /* La app oculta deja de pintarse cuando termina de salir (ahorra trabajo al celular). */
+  transition: transform .35s cubic-bezier(.2,.9,.3,1), opacity .25s, visibility 0s .35s;
+  will-change: transform;
 }
-.movil-app.visible { transform: none; opacity: 1; pointer-events: auto; }
+.movil-app.visible { transform: none; opacity: 1; pointer-events: auto; visibility: visible; transition-delay: 0s; }
 .movil-app.cerrando { transform: translateY(100%); opacity: 0; }
 .movil-app-barra { display: flex; align-items: center; height: 40px; flex: none; padding: 0 6px; background: linear-gradient(#f4f9fe, #d6e6f5); border-bottom: 1px solid #a9c1d8; }
 .movil-app-barra button { padding: 6px 10px; border: 0; background: none; color: #1f6fb8; font-size: 15px; cursor: pointer; }
@@ -62,7 +67,7 @@
   background: linear-gradient(rgba(255,255,255,.18), transparent 40%), rgba(14, 36, 58, .82);
   backdrop-filter: var(--desenfoque); -webkit-backdrop-filter: var(--desenfoque);
   border-right: 1px solid rgba(255,255,255,.4); box-shadow: 8px 0 30px rgba(0,0,0,.4);
-  transform: translateX(-105%); transition: transform .35s cubic-bezier(.2,.9,.3,1);
+  transform: translateX(-105%); transition: transform .35s cubic-bezier(.2,.9,.3,1); will-change: transform;
 }
 .movil-menu.abierto { transform: none; }
 .movil-menu-item {

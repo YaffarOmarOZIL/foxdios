@@ -1,10 +1,10 @@
-import { Suspense, useCallback, useMemo, useRef, type CSSProperties, type PointerEvent as PE } from 'react';
+import { memo, Suspense, useCallback, useMemo, useRef, type ComponentType, type CSSProperties, type PointerEvent as PE } from 'react';
 import { APPS } from '../../apps/registro';
 import { useT } from '../../i18n';
 import { ALTO_BARRA, useSistema, type Ventana as TVentana } from '../estado';
 import { Icono } from '../iconos/Icono';
 import { sonidos } from '../sonido';
-import { VentanaCtx } from './contexto';
+import { VentanaCtx, type ContextoVentana } from './contexto';
 import './ventanas.css';
 
 const MIN_W = 300;
@@ -16,16 +16,41 @@ interface Props {
   activa: boolean;
   estiloFlip?: CSSProperties;
   enFlip: boolean;
-  onFlipClick?: () => void;
 }
 
-export function Ventana({ v, activa, estiloFlip, enFlip, onFlipClick }: Props) {
+/**
+ * Optimización: memo hace que, al mover una ventana, las demás no se vuelvan a dibujar.
+ */
+export const Ventana = memo(function Ventana({ v, activa, estiloFlip, enFlip }: Props) {
   const { t } = useT();
   const def = APPS[v.app];
   const { enfocar, cerrar, minimizar, alternarMax, mover, setTitulo, setProps } = useSistema.getState();
   const pantallaW = useSistema((s) => s.pantalla.w);
   const pantallaH = useSistema((s) => s.pantalla.h);
-  const arrastre = useRef<{ px: number; py: number; x: number; y: number; w: number; h: number; borde?: Borde } | null>(null);
+  const arrastre = useRef<{ px: number; py: number; x: number; y: number; w: number; h: number; k: number; borde?: Borde } | null>(null);
+  // Los movimientos del mouse se juntan y se aplican una vez por cuadro de pantalla.
+  const pendiente = useRef<{ cambios: Partial<Pick<TVentana, 'x' | 'y' | 'w' | 'h'>>; raf: number } | null>(null);
+  const aplicar = useCallback((cambios: Partial<Pick<TVentana, 'x' | 'y' | 'w' | 'h'>>) => {
+    if (pendiente.current) {
+      pendiente.current.cambios = cambios;
+      return;
+    }
+    pendiente.current = {
+      cambios,
+      raf: requestAnimationFrame(() => {
+        const p = pendiente.current;
+        pendiente.current = null;
+        if (p) mover(v.id, p.cambios);
+      }),
+    };
+  }, [mover, v.id]);
+  const vaciar = () => {
+    const p = pendiente.current;
+    if (!p) return;
+    cancelAnimationFrame(p.raf);
+    pendiente.current = null;
+    mover(v.id, p.cambios);
+  };
 
   const ctx = useMemo(
     () => ({
@@ -45,25 +70,30 @@ export function Ventana({ v, activa, estiloFlip, enFlip, onFlipClick }: Props) {
       if (e.button !== 0 || (v.maximizada && borde)) return;
       e.stopPropagation();
       enfocar(v.id);
-      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-      arrastre.current = { px: e.clientX, py: e.clientY, x: v.x, y: v.y, w: v.w, h: v.h, borde };
+      try {
+        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+      } catch {
+        /* algunos navegadores no permiten capturar el puntero: se sigue igual */
+      }
+      // La pantalla puede estar escalada (monitor 4:3/16:9): se mide una sola vez al empezar.
+      const ancho = (e.currentTarget as HTMLElement).closest('.pantalla')?.getBoundingClientRect().width || pantallaW;
+      arrastre.current = { px: e.clientX, py: e.clientY, x: v.x, y: v.y, w: v.w, h: v.h, k: pantallaW / ancho, borde };
     },
-    [v, enfocar],
+    [v, enfocar, pantallaW],
   );
 
   const moverPuntero = useCallback(
     (e: PE) => {
       const a = arrastre.current;
       if (!a) return;
-      // La pantalla puede estar escalada (monitor 4:3/16:9), así que convertimos el movimiento.
-      const escala = (e.currentTarget as HTMLElement).closest('.pantalla')?.getBoundingClientRect().width ?? pantallaW;
-      const k = pantallaW / escala;
+      const k = a.k;
       const dx = (e.clientX - a.px) * k;
       const dy = (e.clientY - a.py) * k;
       if (!a.borde) {
         if (v.maximizada) {
           // Arrastrar una ventana maximizada la restaura (como en Windows).
           if (Math.abs(dy) < 6) return;
+          vaciar();
           alternarMax(v.id);
           const nx = Math.max(0, Math.min(pantallaW - a.w, a.px * k - a.w / 2));
           arrastre.current = { ...a, x: nx, y: 0, px: e.clientX, py: e.clientY };
@@ -72,7 +102,7 @@ export function Ventana({ v, activa, estiloFlip, enFlip, onFlipClick }: Props) {
         }
         const x = Math.min(Math.max(a.x + dx, -a.w + 80), pantallaW - 80);
         const y = Math.min(Math.max(a.y + dy, 0), pantallaH - ALTO_BARRA - 30);
-        mover(v.id, { x, y });
+        aplicar({ x, y });
         return;
       }
       let { x, y, w, h } = a;
@@ -86,19 +116,23 @@ export function Ventana({ v, activa, estiloFlip, enFlip, onFlipClick }: Props) {
         h = Math.max(MIN_H, a.h - dy);
         y = Math.max(0, a.y + a.h - h);
       }
-      mover(v.id, { x, y, w, h });
+      aplicar({ x, y, w, h });
     },
-    [v, mover, alternarMax, pantallaW, pantallaH],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [v, aplicar, alternarMax, pantallaW, pantallaH],
   );
 
   const terminar = useCallback(() => {
     const a = arrastre.current;
     arrastre.current = null;
+    vaciar();
+    const actual = useSistema.getState().ventanas.find((x) => x.id === v.id);
     // Soltar arriba del todo = maximizar (Aero Snap)
-    if (a && !a.borde && !v.maximizada && v.y <= 0) {
+    if (a && actual && !a.borde && !actual.maximizada && actual.y <= 0) {
       alternarMax(v.id);
       mover(v.id, { y: 20 });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [v, alternarMax, mover]);
 
   const Componente = def.componente;
@@ -127,7 +161,8 @@ export function Ventana({ v, activa, estiloFlip, enFlip, onFlipClick }: Props) {
         if (enFlip) {
           e.stopPropagation();
           e.preventDefault();
-          onFlipClick?.();
+          useSistema.getState().setFlip(false);
+          enfocar(v.id);
         }
       }}
       role="dialog"
@@ -160,18 +195,7 @@ export function Ventana({ v, activa, estiloFlip, enFlip, onFlipClick }: Props) {
         </div>
       </div>
       <div className="ventana-cuerpo" onPointerDown={() => sonidos.click()}>
-        <VentanaCtx.Provider value={ctx}>
-          <Suspense
-            fallback={
-              <div className="ventana-cargando">
-                <div className="girando" />
-                {t('ventana.cargando')}
-              </div>
-            }
-          >
-            <Componente />
-          </Suspense>
-        </VentanaCtx.Provider>
+        <CuerpoVentana ctx={ctx} Componente={Componente} textoCargando={t('ventana.cargando')} />
       </div>
       {!v.maximizada &&
         (['n', 's', 'e', 'o', 'ne', 'no', 'se', 'so'] as Borde[]).map((b) => (
@@ -179,4 +203,24 @@ export function Ventana({ v, activa, estiloFlip, enFlip, onFlipClick }: Props) {
         ))}
     </div>
   );
-}
+});
+
+/**
+ * El contenido de la app. Va aparte y con memo: mover o redimensionar la ventana no vuelve a dibujar la app.
+ */
+const CuerpoVentana = memo(function CuerpoVentana({ ctx, Componente, textoCargando }: { ctx: ContextoVentana; Componente: ComponentType; textoCargando: string }) {
+  return (
+    <VentanaCtx.Provider value={ctx}>
+      <Suspense
+        fallback={
+          <div className="ventana-cargando">
+            <div className="girando" />
+            {textoCargando}
+          </div>
+        }
+      >
+        <Componente />
+      </Suspense>
+    </VentanaCtx.Provider>
+  );
+});

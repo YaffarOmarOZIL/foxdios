@@ -378,7 +378,21 @@ function servirCarpeta(server: ViteDevServer, prefijo: string, dir: string) {
     const rel = decodeURIComponent((req.url || '/').split('?')[0]);
     const archivo = path.join(dir, rel);
     if (!archivo.startsWith(dir) || !fs.existsSync(archivo) || !fs.statSync(archivo).isFile()) return next();
+    const tamano = fs.statSync(archivo).size;
     res.setHeader('Content-Type', MIME[path.extname(archivo).toLowerCase()] ?? 'application/octet-stream');
+    res.setHeader('Accept-Ranges', 'bytes');
+    // Soporte de "Range" (como un servidor real): el audio puede saber su duración y adelantarse.
+    const rango = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range ?? '');
+    if (rango) {
+      const inicio = rango[1] ? +rango[1] : 0;
+      const fin = rango[2] ? Math.min(+rango[2], tamano - 1) : tamano - 1;
+      res.statusCode = 206;
+      res.setHeader('Content-Range', `bytes ${inicio}-${fin}/${tamano}`);
+      res.setHeader('Content-Length', fin - inicio + 1);
+      fs.createReadStream(archivo, { start: inicio, end: fin }).pipe(res);
+      return;
+    }
+    res.setHeader('Content-Length', tamano);
     fs.createReadStream(archivo).pipe(res);
   });
 }

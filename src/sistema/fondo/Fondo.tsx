@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { url } from '../../contenido';
 import { usePrefs } from '../preferencias';
+import { useFondoCubierto, useLiviano } from '../rendimiento';
 import './fondo.css';
 
 /** Fondos integrados (hechos con CSS, no pesan nada). Agrega más en fondo.css con la clase .fondo-<id>. */
@@ -16,21 +17,27 @@ export function Fondo() {
   const fondo = usePrefs((s) => s.fondo);
   const burbujas = usePrefs((s) => s.burbujas);
   const esImagen = !FONDOS.some((f) => f.id === fondo);
+  const cubierto = useFondoCubierto();
+  const liviano = useLiviano();
   return (
     <div className={`fondo ${esImagen ? '' : `fondo-${fondo}`}`} style={esImagen ? { backgroundImage: `url("${url(fondo)}")` } : undefined}>
-      {!esImagen && <div className="fondo-brillos" />}
-      {burbujas && <Burbujas />}
+      {!esImagen && <div className={`fondo-brillos${cubierto ? ' pausado' : ''}`} />}
+      {burbujas && <Burbujas pausado={cubierto} liviano={liviano} />}
     </div>
   );
 }
 
 /** Burbujas brillantes que suben lentamente (canvas, muy liviano). */
-function Burbujas() {
+function Burbujas({ pausado, liviano }: { pausado: boolean; liviano: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  // Se guarda en una ref para pausar/reanudar sin reiniciar la animación (las burbujas siguen donde estaban).
+  const estado = useRef({ pausado, liviano });
+  estado.current = { pausado, liviano };
   useEffect(() => {
     const canvas = ref.current!;
     const c = canvas.getContext('2d')!;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Burbujas suaves: no necesitan resolución doble (4 veces menos píxeles en celulares).
+    const dpr = Math.min(window.devicePixelRatio || 1, estado.current.liviano ? 1 : 1.5);
     // Pre-dibujamos una burbuja y luego solo la copiamos (mucho más rápido).
     const sprite = document.createElement('canvas');
     sprite.width = sprite.height = 128;
@@ -80,7 +87,21 @@ function Burbujas() {
     const lista = Array.from({ length: 22 }, () => nueva(true));
     let raf = 0;
     let previo = performance.now();
+    let espera: ReturnType<typeof setTimeout> | undefined;
     const cuadro = (ahora: number) => {
+      // Si una app tapa todo el fondo, las burbujas descansan (se revisa cada 300 ms, casi sin costo).
+      if (estado.current.pausado) {
+        espera = setTimeout(() => {
+          previo = performance.now();
+          raf = requestAnimationFrame(cuadro);
+        }, 300);
+        return;
+      }
+      // En celulares se dibuja a 30 cuadros por segundo: el movimiento es lento, se ve igual.
+      if (estado.current.liviano && ahora - previo < 30) {
+        raf = requestAnimationFrame(cuadro);
+        return;
+      }
       const dt = Math.min(50, ahora - previo) / 16.7;
       previo = ahora;
       c.clearRect(0, 0, w, alto);
@@ -98,6 +119,7 @@ function Burbujas() {
     raf = requestAnimationFrame(cuadro);
     const visibilidad = () => {
       cancelAnimationFrame(raf);
+      clearTimeout(espera);
       if (!document.hidden) {
         previo = performance.now();
         raf = requestAnimationFrame(cuadro);
@@ -106,6 +128,7 @@ function Burbujas() {
     document.addEventListener('visibilitychange', visibilidad);
     return () => {
       cancelAnimationFrame(raf);
+      clearTimeout(espera);
       ro.disconnect();
       document.removeEventListener('visibilitychange', visibilidad);
     };

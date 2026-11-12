@@ -37,7 +37,10 @@ export function Escritorio() {
     if (ev.pointerType === 'touch') e.abrir();
   };
 
-  const prefs = usePrefs();
+  // Solo escucha las 2 preferencias que usa (así escribir en las notas no re-dibuja el escritorio).
+  const gadgets = usePrefs((s) => s.gadgets);
+  const aspecto = usePrefs((s) => s.aspecto);
+  const cambiar = usePrefs((s) => s.cambiar);
 
   return (
     <div
@@ -74,13 +77,13 @@ export function Escritorio() {
         <div className="menu-contextual" style={{ left: menu.x, top: menu.y }} onPointerDown={(e) => e.stopPropagation()}>
           <button onClick={() => (setRefresco((r) => r + 1), setMenu(null))}>{t('escritorio.actualizar')}</button>
           <hr />
-          <button onClick={() => (prefs.cambiar('gadgets', !prefs.gadgets), setMenu(null))}>
-            {t(prefs.gadgets ? 'escritorio.ocultarGadgets' : 'escritorio.gadgets')}
+          <button onClick={() => (cambiar('gadgets', !gadgets), setMenu(null))}>
+            {t(gadgets ? 'escritorio.ocultarGadgets' : 'escritorio.gadgets')}
           </button>
           <div className="submenu">
             <span>{t('escritorio.formato')}</span>
             {(['completa', '16:9', '4:3'] as const).map((a) => (
-              <button key={a} className={prefs.aspecto === a ? 'marcado' : ''} onClick={() => (prefs.cambiar('aspecto', a), setMenu(null))}>
+              <button key={a} className={aspecto === a ? 'marcado' : ''} onClick={() => (cambiar('aspecto', a), setMenu(null))}>
                 {a === 'completa' ? t('config.completa') : a}
               </button>
             ))}

@@ -57,16 +57,22 @@ interface EstadoPrefs extends Preferencias {
   cambiar: <K extends keyof Preferencias>(clave: K, valor: Preferencias[K]) => void;
 }
 
+let guardado: ReturnType<typeof setTimeout> | undefined;
+
 export const usePrefs = create<EstadoPrefs>((set, get) => ({
   ...cargar(),
   cambiar: (clave, valor) => {
     set({ [clave]: valor } as Partial<EstadoPrefs>);
-    try {
-      const { cambiar: _c, ...datos } = get();
-      void _c;
-      localStorage.setItem(CLAVE, JSON.stringify(datos));
-    } catch {
-      /* modo privado o almacenamiento bloqueado: no pasa nada */
-    }
+    // Se guarda un instante después (si escribes en las notas, no se guarda en cada tecla).
+    clearTimeout(guardado);
+    guardado = setTimeout(() => {
+      try {
+        const { cambiar: _c, ...datos } = get();
+        void _c;
+        localStorage.setItem(CLAVE, JSON.stringify(datos));
+      } catch {
+        /* modo privado o almacenamiento bloqueado: no pasa nada */
+      }
+    }, 250);
   },
 }));

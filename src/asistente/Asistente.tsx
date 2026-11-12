@@ -4,7 +4,7 @@
  * - Sin actividad durante N segundos (foxdios.config.json): dice una frase de "inactividad".
  * - Las frases están en contenido/Asistente/frases.json y las expresiones en contenido/Asistente/*.png.
  */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { configSistema, datosAsistente, url } from '../contenido';
 import type { Frase } from '../contenido/tipos';
 import { textoDe, useT } from '../i18n';
@@ -140,6 +140,12 @@ export function Asistente({ movil }: { movil: boolean }) {
 
   useEffect(() => limpiar, []);
 
+  // Funciones estables para que el personaje no se re-dibuje con cada letra (solo la burbuja).
+  const accionClic = useRef<() => void>(() => {});
+  const accionOcultar = useRef<() => void>(() => {});
+  const alClicEstable = useCallback(() => accionClic.current(), []);
+  const ocultarEstable = useCallback(() => accionOcultar.current(), []);
+
   if (!visible) return null;
 
   const imagen =
@@ -160,7 +166,8 @@ export function Asistente({ movil }: { movil: boolean }) {
     decir(aleatoria(frases.alHacerClick, ultima.current));
   };
 
-  const ocultar = () => {
+  accionClic.current = alClic;
+  accionOcultar.current = () => {
     sonidos.cerrar();
     setSaliendo(true);
     setTimeout(() => {
@@ -180,17 +187,23 @@ export function Asistente({ movil }: { movil: boolean }) {
           </p>
         </div>
       )}
-      <div className={`asistente-cuerpo${hablando ? ' hablando' : ''}`}>
-        {imagen ? (
-          <img src={url(imagen)} alt="Foxdi" draggable={false} />
-        ) : (
-          <div className="asistente-placeholder">🦊</div>
-        )}
-        <button className="asistente-zona" onClick={alClic} aria-label="Foxdi" />
-        <button className="asistente-cerrar" onClick={ocultar} title={t('asistente.cerrar')} aria-label={t('asistente.cerrar')}>
-          ×
-        </button>
-      </div>
+      <CuerpoFoxdi imagen={imagen} hablando={hablando} alClic={alClicEstable} ocultar={ocultarEstable} textoCerrar={t('asistente.cerrar')} />
     </div>
   );
 }
+
+/** El personaje. Con memo solo se re-dibuja cuando cambia la expresión o empieza/termina de hablar. */
+const CuerpoFoxdi = memo(function CuerpoFoxdi({ imagen, hablando, alClic, ocultar, textoCerrar }: { imagen?: string; hablando: boolean; alClic: () => void; ocultar: () => void; textoCerrar: string }) {
+  return (
+    <div className={`asistente-cuerpo${hablando ? ' hablando' : ''}`}>
+      {imagen ? <img src={url(imagen)} alt="Foxdi" draggable={false} decoding="async" /> : <div className="asistente-placeholder">🦊</div>}
+      <button className="asistente-zona" onClick={alClic} aria-label="Foxdi" />
+      <button className="asistente-cerrar" onClick={ocultar} title={textoCerrar} aria-label={textoCerrar}>
+        ×
+      </button>
+    </div>
+  );
+});
+
+// Pre-carga las 4 expresiones para que no parpadeen la primera vez que cambian.
+if (typeof Image !== 'undefined') for (const e of new Set(Object.values(expresiones))) if (e) new Image().src = url(e);

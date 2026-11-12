@@ -147,8 +147,8 @@ En `contenido/Webs/` crea una carpeta por web, con su `index.html`, CSS, JS e im
 
 Pon archivos de audio en `contenido/Musica/`. El título sale del nombre del archivo: `Artista - Título.mp3`.
 O agrega un `.json` con el mismo nombre: `{ "titulo": "...", "artista": "..." }`.
-**Usa música tuya o libre de derechos.** La canción de ejemplo `Foxdi - Aero Dreams.wav` es original (generada por código), cámbiala cuando tengas la tuya.
-Consejo: usa `.mp3` u `.ogg`, que pesan mucho menos que `.wav`.
+**Usa música tuya o libre de derechos.** La canción de ejemplo `Foxdi - Aero Dreams.mp3` es original (generada por código), cámbiala cuando tengas la tuya.
+Consejo: usa `.mp3` (funciona en todos los navegadores, incluido el iPhone) y no `.wav`, que pesa unas 4 veces más.
 
 ### 🦊 Foxdi (el asistente)
 

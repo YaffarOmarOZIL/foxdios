@@ -6,6 +6,7 @@ import { Escritorio } from './sistema/escritorio/Escritorio';
 import { useSistema } from './sistema/estado';
 import { Fondo } from './sistema/fondo/Fondo';
 import { usePrefs } from './sistema/preferencias';
+import { useLiviano } from './sistema/rendimiento';
 import { CapaVentanas } from './sistema/ventanas/CapaVentanas';
 import { BarraWidgets } from './widgets/BarraWidgets';
 import './App.css';
@@ -19,12 +20,14 @@ export default function App() {
   const modo = usePrefs((s) => s.modo);
   const animaciones = usePrefs((s) => s.animaciones);
   const idioma = usePrefs((s) => s.idioma);
+  // En celulares y pantallas táctiles se usa el vidrio liviano (ver final de global.css).
+  const liviano = useLiviano();
   useEffect(() => {
     document.documentElement.lang = idioma;
   }, [idioma]);
 
   return (
-    <div className={animaciones ? '' : 'sin-animaciones'} style={{ height: '100%' }}>
+    <div className={[animaciones ? '' : 'sin-animaciones', liviano ? 'liviano' : ''].join(' ').trim()} style={{ height: '100%' }}>
       <Monitor>
         <Sistema movil={modo === 'movil'} />
       </Monitor>

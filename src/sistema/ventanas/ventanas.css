@@ -12,7 +12,7 @@
   border: 1px solid rgba(255, 255, 255, .55);
   box-shadow: 0 0 0 1px rgba(0, 20, 40, .45), 0 8px 26px rgba(0, 20, 50, .35);
   animation: ventana-abrir .26s cubic-bezier(.2, .9, .3, 1.1);
-  transition: opacity .2s, transform .22s cubic-bezier(.3, .7, .4, 1), box-shadow .2s, background .2s;
+  transition: opacity .2s, transform .22s cubic-bezier(.3, .7, .4, 1), box-shadow .2s, background .2s, visibility 0s;
   transform-origin: 50% 60%;
 }
 /* Brillo diagonal del vidrio */
@@ -24,11 +24,11 @@
 }
 .ventana.activa { background: var(--vidrio); box-shadow: 0 0 0 1px rgba(0, 20, 40, .55), var(--sombra-ventana); }
 .ventana.maximizada { border-radius: 0; padding: 0 0 0; border-width: 0; transition: none; }
-.ventana.minimizada { opacity: 0; transform: translateY(45%) scale(.3); pointer-events: none; }
+.ventana.minimizada { opacity: 0; transform: translateY(45%) scale(.3); pointer-events: none; visibility: hidden; transition-delay: 0s, 0s, 0s, 0s, .22s; }
 .ventana.cerrando { opacity: 0; transform: scale(.92); pointer-events: none; }
 .ventana.en-flip { transition: transform .45s cubic-bezier(.25, .8, .3, 1), opacity .3s, filter .3s; cursor: pointer; }
 .ventana.en-flip .ventana-cuerpo { pointer-events: none; }
-.ventana.en-flip.minimizada { opacity: .9; }
+.ventana.en-flip.minimizada { opacity: .9; visibility: visible; }
 @keyframes ventana-abrir { from { opacity: 0; transform: scale(.88) translateY(14px); } }
 
 .ventana-titulo {
@@ -92,3 +92,6 @@
   background: rgba(0, 0, 0, .45); border: 1px solid rgba(255,255,255,.25);
 }
 @keyframes aparecer { from { opacity: 0; } }
+
+/* Optimización: en el Flip 3D cada ventana va en su propia capa de la tarjeta gráfica. */
+.capa-ventanas.flip .ventana { will-change: transform; }

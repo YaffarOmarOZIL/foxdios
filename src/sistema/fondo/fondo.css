@@ -67,3 +67,7 @@
     radial-gradient(ellipse 50% 70% at 95% 100%, #2d8a36, transparent 70%),
     linear-gradient(160deg, #b8f08a 0%, #5fc95a 35%, #1f8a4a 70%, #0c4f33 100%);
 }
+
+/* Optimización: cuando una app tapa todo el fondo, los brillos dejan de animarse. */
+.fondo-brillos.pausado { animation-play-state: paused; }
+.fondo-brillos { will-change: transform; }

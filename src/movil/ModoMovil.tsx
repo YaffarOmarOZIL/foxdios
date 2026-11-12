@@ -35,7 +35,7 @@ export default function ModoMovil() {
   };
 
   return (
-    <div className="movil">
+    <div className={`movil${activa ? ' app-abierta' : ''}`}>
       <header className="movil-barra">
         <button className={`movil-hamburguesa${menu ? ' abierta' : ''}`} aria-label="Menu" onClick={() => (sonidos.menu(), setMenu(!menu))}>
           <span />
