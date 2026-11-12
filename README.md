@@ -204,7 +204,8 @@ A partir de ahí, **cada `git push` publica la web sola** en uno o dos minutos.
 
 > Límite de Cloudflare Pages: 25 MB por archivo. Para fotos o canciones más pesadas, usa R2 (abajo).
 
-**Alternativa: GitHub Pages.** También funciona, porque la web usa rutas relativas. Hay que configurar una GitHub Action que corra `npm run build` y publique `dist/`.
+**Alternativa (la que usamos ahora): GitHub Pages.** Ya está configurada en `.github/workflows/publicar.yml`: cada `git push` a `main` compila la web y la publica en `https://yaffaromarozil.github.io/foxdios/`.
+Solo hay que activarla una vez en el repo: **Settings → Pages → Source: GitHub Actions**. El progreso de cada publicación se ve en la pestaña **Actions**.
 
 ### 3. (Más adelante) Fotos pesadas en Cloudflare R2
 Cuando tengas muchas fotos y el repo se ponga pesado (GitHub recomienda menos de 1 GB):
