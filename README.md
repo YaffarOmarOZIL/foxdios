@@ -221,6 +221,13 @@ Cuando tengas muchas fotos y el repo se ponga pesado (GitHub recomienda menos de
 
 ---
 
+## ⚖️ Licencia
+
+- **El código** tiene **licencia MIT**: cualquiera puede usarlo, modificarlo y basarse en él, siempre que mantenga el aviso de copyright de Foxdi.
+- **Todo lo que está en `contenido/`** (el personaje Foxdi, el arte, las imágenes, los textos, la música y las webs) tiene **todos los derechos reservados**: no se puede reutilizar sin permiso.
+
+Si haces tu propio portfolio a partir de FoxdiOS, reemplaza la carpeta `contenido/` con tus cosas. Los detalles están en [LICENSE](LICENSE).
+
 ## 📜 Créditos
 - Foto del avatar de inicio de sesión: "Vulpes vulpes ssp fulvus", Wikimedia Commons, **CC0** (ver `src/assets/sistema/CREDITOS.txt`).
 - Todos los iconos, sonidos, fondos y la música de ejemplo son originales (hechos por código para este proyecto). La estética está inspirada en Windows Vista/7/XP, pero no usa recursos de Microsoft.

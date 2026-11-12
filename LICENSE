@@ -1,0 +1,66 @@
+FoxdiOS — License
+=================
+
+This repository contains two different kinds of material, under two different terms:
+
+  1. SOURCE CODE  → MIT License (free to use, with credit)
+  2. PERSONAL CONTENT (everything inside the "contenido/" folder) → All rights reserved
+
+-------------------------------------------------------------------------------
+1. SOURCE CODE — MIT License
+-------------------------------------------------------------------------------
+
+Applies to everything in this repository EXCEPT the "contenido/" folder
+(and the third-party file listed in section 3).
+
+Copyright (c) 2026 Foxdi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Friendly request (not a legal requirement): if you build something based on
+FoxdiOS, a visible "Based on FoxdiOS by Foxdi" credit would be much appreciated!
+
+-------------------------------------------------------------------------------
+2. PERSONAL CONTENT — All rights reserved
+-------------------------------------------------------------------------------
+
+Copyright (c) 2026 Foxdi. All rights reserved.
+
+Everything inside the "contenido/" folder is NOT covered by the MIT License.
+This includes, but is not limited to:
+
+  - The character "Foxdi", its design and all of its images and expressions
+  - All artwork, drawings and pictures
+  - Texts, documents, CV and work experience
+  - Music and the example websites
+
+You may view this content as part of the published website, but you may not
+copy, reuse, modify, redistribute or use it to train or create derivative
+works without prior written permission from Foxdi.
+
+If you fork this project to make your own portfolio, replace the contents of
+the "contenido/" folder with your own.
+
+-------------------------------------------------------------------------------
+3. Third-party material
+-------------------------------------------------------------------------------
+
+src/assets/sistema/avatar-zorro.jpg
+  "Vulpes vulpes ssp fulvus 6568085.jpg" — Wikimedia Commons, CC0 1.0
+  (public domain). See src/assets/sistema/CREDITOS.txt.

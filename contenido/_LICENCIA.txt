@@ -1,0 +1,9 @@
+ALL RIGHTS RESERVED / TODOS LOS DERECHOS RESERVADOS
+
+Everything in this folder (the character Foxdi, artwork, pictures, texts,
+music and websites) is © Foxdi, all rights reserved. It is NOT covered by the
+MIT License of the code. See the LICENSE file at the root of the repository.
+
+Todo lo que hay en esta carpeta (el personaje Foxdi, arte, imágenes, textos,
+música y webs) es © Foxdi, con todos los derechos reservados. NO está cubierto
+por la licencia MIT del código. Ver el archivo LICENSE en la raíz del repositorio.
